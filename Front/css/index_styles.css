@@ -1,0 +1,169 @@
+* {
+    box-sizing: border-box;
+    margin: 10;
+    padding: 0;
+}
+
+
+header{
+    width: 100%;
+}
+
+table thead {
+    background-color:#F56242;
+    color: #fff;
+    text-align: center;
+    border-radius:10px;
+    height: 50px;
+    font-size: 20px;
+}
+
+table tbody{
+    text-align: center;
+}
+
+table tbody td{
+    height: 40px;
+    word-break: keep-all;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #fcca9c;
+  }
+
+table{
+    background-color: #fff5ea;
+    border-radius: 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+.titulo{
+    text-align: center;
+    color: #F56242;
+    text-shadow: 2px 2px 4px #fcca9c;
+}
+
+.container-fluid{
+    margin:auto;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 20px;
+}
+
+.logo{
+    width: 50%;
+    margin-left: 15%;
+}
+
+.btn-editar, 
+.btn-eliminar{
+    border-radius: 3px;
+    color: #fff;
+    padding: 1px 8px;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.btn-agregar{
+    background-color: #66BB45;
+    border-color: #66BB45;
+}
+
+.btn-editar{
+    background-color: #3c7aff;
+    border-color: #3c7aff;
+}
+
+.btn-eliminar{
+    background-color: #ff3c3c;
+    border-color: #ff3c3c;
+}
+
+.foto-prod{
+    max-width: 100px;
+}
+
+#btn-agregar-user,
+#btn-agregar-product{
+    border-radius: 3px;
+    color: #fff;
+    height: 50px;
+    font-size: 20px;
+    font-weight: bold;
+    width: 30%;
+    overflow: hidden;
+}
+
+#espacio-btn{
+    margin-left: 15px;
+    width: 100%;
+}
+
+.error {
+    font-size: 14px;
+    margin-top: 3px;
+    color: red;
+}
+
+.modal-header{
+    background-color: #F56242;
+    color: #fff;
+}
+
+.btn-admin{
+    background-color: #F56242;
+    border-radius: 3px;
+    width: 300px;
+    height: 50px;
+    color: #fff;
+    font-size: 20px;
+    font-weight: bold;
+    overflow: hidden;
+    margin-left: 2%;
+    margin-right: 0px;
+    padding: 0px;
+}
+
+#btns-admin,
+#btns_asesor{
+    width: 50%;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    padding-left: 0px;
+    padding-right: 0px;
+    margin: auto;
+    overflow: hidden;
+}
+
+.btn-log-out{
+    border-radius: 3px;
+    color: #fff;
+    padding: 1px 8px;
+    font-weight: bold;
+    font-size: 16px;
+    background-color: #F56242;   
+}
+
+.btn_filtros{
+    background-color: #3274f0;
+    color:#fff;
+    font-weight: bold;
+    font-size: 18px;
+    padding: 2px 4px 2px 4px;
+}
+
+#fecha_filtro,
+#estado_filtro{
+    margin-left: 3%;
+}
+
+#alerts_ordenes{
+    padding-top: 3%;
+}

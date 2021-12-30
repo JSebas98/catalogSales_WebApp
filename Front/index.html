@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap CSS-->
+    <link
+        rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous"
+        />
+    <!-- Latest compiled and minified CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!--Iconos FontAwesome-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+        crossorigin="anonymous" />
+    <!--Css personalizado-->
+    <link rel="stylesheet" href="css/index_styles.css" type="text/css" media="all" />
+    
+    <title>Inicio</title>
+</head>
+<body>
+    <div class="container-fluid">
+        <!--Header con logo, info usuario y cerrar sesión-->
+        <header>
+            <div class="row">
+                <div id="logo" class="col-4">
+                    <img class="logo" src="img/logo_white.png" alt="logo" />
+                </div>
+                <div id="info_usuario" class="col-5">
+                    
+                </div>
+                <div class="col-2">
+                    <button id="btn-log-out" class="btn-log-out">Cerrar sesión</button>
+                </div>
+            </div>
+        </header>
+
+        <!--Alertas-->
+        <div id="alertas" class="col-md-12 pt-3">
+            <!--Mensaje consulta-->
+            <div id="alert_consulta" class="alert alert-secondary text-center" style="display: none;">
+                <strong>Recuperando la información de la base de datos...</strong>
+            </div>
+            <!--Mensaje no resultados-->
+            <div id="alert_no_resul" class="alert alert-info text-center" style="display: none;">
+                <strong>Información</strong>
+                <p>No se encontraron registros.</p>
+            </div>
+            <!--Mensaje error-->
+            <div id="alert_error" class="alert alert-danger text-center" style="display: none;">
+                <strong>Error</strong>
+                <p>Contacte al administrador.</p>
+            </div>
+            <!--Mensaje no autorizado-->
+            <div id="alert_no_auth" class="alert alert-warning text-center" style="display: none;">
+                <strong>No autorizado</strong>
+                <br>
+                <p>No tiene un coordinador asociado o no tiene asesores asignados.</p>
+                <p>Comuníquese con un administrador.</p>
+            </div>
+        </div>
+
+        <!--Index para admin-->
+        <div id="admin_index" class="col-md-12 pt-3" style="display: none;">
+            <!--Botones opciones admin-->
+            <div id="btns-admin">
+                <button id="btn-admin-users" class="btn-admin">Administrar usuarios</button>
+                <button id="btn-admin-prods" class="btn-admin">Inventario de productos</button>
+            </div>
+
+            <!--Espacio que contiene tabla y botón usuarios-->
+            <div id="admin-users" class="col-12" style="display: none;">
+                <div class="container-fluid">
+                    <!--Tabla con registros-->
+                    <div id="tabla-personal" class="col-12">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th colspan="2">Acciones</th>
+                                    <th>Identificación</th>
+                                    <th>Nombres</th>
+                                    <th>Email</th>
+                                    <th>Teléfono</th>
+                                    <th>Rol</th>
+                                    <th>Zona</th>
+                                </tr>
+                            </thead>
+                            <tbody id="body-tabla-user">
+                                <!--Espacio para insertar datos-->
+                            </tbody>
+                        </table>
+                    </div>
+                    <!--Botón agregar-->
+                    <div id="espacio-btn">
+                        <button id="btn-agregar-user" class="btn-agregar" data-toggle="modal" data-target="#modalAgregarUser">
+                            Agregar nuevo usuario
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!--Espacio que contiene tabla y botón productos-->
+            <div id="admin-prods" class="col-12" style="display: none;">
+                <div class="container-fluid">
+                    <!--Tabla con registros-->
+                    <div id="tabla-productos" class="col-12" style="display: none;">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th colspan="2">Acciones</th>
+                                    <th>Referencia</th>
+                                    <th>Marca</th>
+                                    <th>Categoría</th>
+                                    <th>Descripción</th>
+                                    <th>Disponibilidad</th>
+                                    <th>Precio</th>
+                                    <th>Stock</th>
+                                    <th>Foto</th>
+                                </tr>
+                            </thead>
+                            <tbody id="body-tabla-products">
+                                <!--Espacio para insertar datos-->
+                            </tbody>
+                        </table>
+                    </div>
+                    <!--Botón agregar-->
+                    <div id="espacio-btn">
+                        <button id="btn-agregar-product" class="btn-agregar" data-toggle="modal" data-target="#modalAgregarSupplement">
+                            Agregar nuevo producto
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--Index para asesor de ventas-->
+        <div id="asesor_index" class="col-md-12 pt-3" style="display: none;">
+            <!--Botones opciones asesor-->
+            <div class="row" id="btns_asesor">
+                <button id="btn_nueva_orden" class="btn-admin">Crear nueva orden</button>
+                <button id="btn_mis_ordenes" class="btn-admin">Mis órdenes</button>
+            </div>
+            <!--Menú crear ordenes-->
+            <div class="row" id="crear_ordenes" style="display: none;">
+                <!--Tabla con los productos disponibles-->
+                <table id="prods_asesor" class="col-md-7">
+                    <thead>
+                        <th>Referencia</th>
+                        <th>Marca</th>
+                        <th>Descripción</th>
+                        <th>Precio</th>
+                        <th>Stock</th>
+                        <th>Cantidad</th>
+                        <th>Acción</th>
+                    </thead>
+                    <tbody id="tbody_prods_asesor">
+                        <!--Espacio para agregar contenido dinámicamente-->
+                    </tbody>
+                </table>
+
+                <!--Tabla con la orden creada-->
+                <table id="orden_asesor" class="col-md-4 mx-auto" style="display: none;">
+                    <thead>
+                        <tr>
+                            <th colspan="4">Orden</th>
+                        </tr>
+                        <tr>
+                            <th>Ref.</th>
+                            <th>Cantidad</th>
+                            <th>Precio</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody_orden_asesor">
+                        <!--Espacio para agregar contenido dinámicamente-->
+                    </tbody>
+                </table>
+                
+            </div>
+            <!--Menú mis ordenes-->
+            <div class="row" id="mis_ordenes" style="display: none;">
+                <div class="row" id="filtros">
+                    <div class="col-md-3">
+                        <h4>Filtros</h4>
+                    </div>
+                    <div class="col-md-3">
+                        <button class="btn_filtros" id="btn_filtro_fecha">Por fecha</button>
+                        <input
+                            type="date"
+                            id="fecha_filtro"
+                            style="display: none;"
+                        />
+                    </div>
+                    <div class="col-md-3">
+                        <button class="btn_filtros" id="btn_filtro_estado">Por estado</button>
+                        <select id="estado_filtro" style="display: none;">
+                            <option value="default" selected hidden>Seleccione estado</option>
+                            <option value="Aprobada">Aprobada</option>
+                            <option value="Pendiente">Pendiente</option>
+                            <option value="Rechazada">Rechazada</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <button class="btn_filtros" onclick="filtrarOrdenes()">Filtrar</button>
+                        <button class="btn_filtros" id="btn_borrar_filtros" onclick="borrarFiltros()" style="display: none;">Borrar filtros</button>
+                    </div>
+                </div>
+                <div class="row" id="alerts_ordenes">
+                    <!--Mensaje no órdenes en BD-->
+                    <div id="alert_no_orders" class="alert alert-warning text-center" style="display: none;">
+                        <strong>Información</strong>
+                        <p>No se encontraron órdenes en la base de datos.</p>
+                    </div>
+                    <!--Mensaje no órdenes según filtro-->
+                    <div id="alert_no_orders_filtro" class="alert alert-warning text-center" style="display: none;">
+                        <strong>Información</strong>
+                        <p>No se encontraron órdenes que cumplan con el filtro indicado.</p>
+                    </div>
+                </div>
+                <div class="row" id="todas_ordenes">
+                    <!--Tabla con las ordenes disponibles-->
+                    <table id="ordenes_asesor" class="col-md-5">
+                        <thead>
+                            <th>Código</th>
+                            <th>Fecha</th>
+                            <th>Estado</th>
+                            <th>Detalle</th>
+                        </thead>
+                        <tbody id="tbody_ordenes_asesor">
+                            <!--Espacio para agregar contenido dinámicamente-->
+                        </tbody>
+                    </table>
+
+                    <!--Tabla con detalles de la orden-->
+                    <table id="detalle_orden_asesor" class="col-md-6 mx-auto" style="display: none;">
+                        <thead>
+                            <tr>
+                                <th colspan="6">Detalle orden</th>
+                            </tr>
+                            <tr>
+                                <th>Orden</th>
+                                <th>Ref.</th>
+                                <th>Cantidad</th>
+                                <th>Precio</th>
+                                <th>Disponibilidad</th>
+                                <th>Stock</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody_detalle_orden_asesor">
+                            <!--Espacio para agregar contenido dinámicamente-->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row" id="ordenes_fecha" style="display: none;">
+                    <!--Tabla con las ordenes por fecha-->
+                    <table id="ordenes_ase_fecha" class="col-md-5">
+                        <thead>
+                            <th>Código</th>
+                            <th>Fecha</th>
+                            <th>Estado</th>
+                            <th>Detalle</th>
+                        </thead>
+                        <tbody id="tbody_ordenes_ase_fecha">
+                            <!--Espacio para agregar contenido dinámicamente-->
+                        </tbody>
+                    </table>
+
+                    <!--Tabla con detalles de la orden-->
+                    <table id="detalle_orden_ase_fecha" class="col-md-6 mx-auto" style="display: none;">
+                        <thead>
+                            <tr>
+                                <th colspan="6">Detalle orden</th>
+                            </tr>
+                            <tr>
+                                <th>Orden</th>
+                                <th>Ref.</th>
+                                <th>Cantidad</th>
+                                <th>Precio</th>
+                                <th>Disponibilidad</th>
+                                <th>Stock</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody_detalle_orden_ase_fecha">
+                            <!--Espacio para agregar contenido dinámicamente-->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row" id="ordenes_estado" style="display: none;">
+                    <!--Tabla con las ordenes por estado-->
+                    <table id="ordenes_ase_estado" class="col-md-5">
+                        <thead>
+                            <th>Código</th>
+                            <th>Fecha</th>
+                            <th>Estado</th>
+                            <th>Detalle</th>
+                        </thead>
+                        <tbody id="tbody_ordenes_ase_estado">
+                            <!--Espacio para agregar contenido dinámicamente-->
+                        </tbody>
+                    </table>
+
+                    <!--Tabla con detalles de la orden-->
+                    <table id="detalle_orden_ase_estado" class="col-md-6 mx-auto" style="display: none;">
+                        <thead>
+                            <tr>
+                                <th colspan="6">Detalle orden</th>
+                            </tr>
+                            <tr>
+                                <th>Orden</th>
+                                <th>Ref.</th>
+                                <th>Cantidad</th>
+                                <th>Precio</th>
+                                <th>Disponibilidad</th>
+                                <th>Stock</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody_detalle_orden_ase_estado">
+                            <!--Espacio para agregar contenido dinámicamente-->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!--Opciones coordinador-->
+        <div id="coord_index" class="col-md-12 pt-3" style="display: none;">
+            <div class="row">
+                <!--Tabla con las ordenes disponibles-->
+                <table id="ordenes_coord" class="col-md-6" style="display: none;">
+                    <thead>
+                        <th>Código</th>
+                        <th>Asesor</th>
+                        <th>Estado</th>
+                        <th>Guardar estado</th>
+                        <th>Detalle</th>
+                    </thead>
+                    <tbody id="tbody_ordenes_coord">
+                        <!--Espacio para agregar contenido dinámicamente-->
+                    </tbody>
+                </table>
+
+                <!--Tabla con detalles de la orden-->
+                <table id="detalle_orden" class="col-md-5 mx-auto" style="display: none;">
+                    <thead>
+                        <tr>
+                            <th colspan="6">Detalle orden</th>
+                        </tr>
+                        <tr>
+                            <th>Orden</th>
+                            <th>Ref.</th>
+                            <th>Cantidad</th>
+                            <th>Precio</th>
+                            <th>Disponibilidad</th>
+                            <th>Stock</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody_detalle_orden">
+                        <!--Espacio para agregar contenido dinámicamente-->
+                    </tbody>
+                </table>  
+            </div>
+        </div>
+
+    </div>
+
+    <!--Modal agregar usuario-->
+    <div>
+        <!-- Modal -->
+        <div class="modal fade" id="modalAgregarUser" tabindex="-1" role="dialog"
+            aria-labelledby="AgregarUsuario" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="tituloModalAgregarUser">Agregar usuario</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="form_agregar_user">
+                            <label for="identification_user"><strong># Identificación</strong></label>
+                            <input
+                                type="text"
+                                id="identification_user"
+                                name="identification_user"
+                                placeholder="Identificación"
+                                class="form-control"
+                            />
+                            <div class="error" id="error_identification"></div>
+
+                            <label for="name_user"><strong>Nombre</strong></label>
+                            <input
+                                type="text"
+                                id="name_user"
+                                name="name_user"
+                                placeholder="Nombre"
+                                class="form-control"
+                            />
+                            <div class="error" id="error_name"></div>
+
+                            <label for="birthday_user"><strong>Fecha nacimiento</strong></label>
+                            <input
+                                type="date"
+                                id="birthday_user"
+                                name="birthday_user"
+                                class="form-control"
+                            />
+                            <div class="error" id="error_birthday"></div>
+
+                            <label for="address_user"><strong>Dirección</strong></label>
+                            <input
+                                type="text"
+                                id="address_user"
+                                name="address_user"
+                                placeholder="Dirección"
+                                class="form-control"
+                            />
+                            <div class="error" id="error_address"></div>
+
+                            <label for="cellphone_user"><strong>Celular</strong></label>
+                            <input
+                                type="text"
+                                id="cellphone_user"
+                                name="cellphone_user"
+                                placeholder="Celular"
+                                class="form-control"
+                            />
+                            <div class="error" id="error_cellphone"></div>
+
+                            <label for="email_user"><strong>Email</strong></label>
+                            <input
+                                type="email"
+                                id="email_user"
+                                name="email_user"
+                                placeholder="Email"
+                                class="form-control"
+                            />
+                            <div class="error" id="error_email"></div>
+
+                            <label for="password_user"><strong>Contraseña</strong></label>
+                            <input
+                                type="password"
+                                id="password_user"
+                                name="password_user"
+                                placeholder="Contraseña"
+                                class="form-control"
+                            />
+                            <div class="error" id="error_password"></div>
+
+                            <label for="zone_user"><strong>Zona</strong></label>
+                            <select id="zone_user" class="form-control">
+                                <option value="default" selected hidden>Seleccione una zona</option>
+                                <option value="ZONA 1">Zona 1 - Centro</option>
+                                <option value="ZONA 2">Zona 2 - Calambeo</option>
+                                <option value="ZONA 3">Zona 3 - San Simón</option>
+                                <option value="ZONA 4">Zona 4 - Piedrapintada</option>
+                                <option value="ZONA 5">Zona 5 - Jordán</option>
+                                <option value="ZONA 6">Zona 6 - Vergel</option>
+                                <option value="ZONA 7">Zona 7 - Salado</option>
+                                <option value="ZONA 8">Zona 8 - Simón Bolivar</option>
+                                <option value="ZONA 9">Zona 9 - Picaleña-Mirolindo</option>
+                                <option value="ZONA 10">Zona 10 - Estadio</option>
+                                <option value="ZONA 11">Zona 11 - Ferias</option>
+                                <option value="ZONA 12">Zona 12 - Ricaurte</option>
+                                <option value="ZONA 13">Zona 13 - Boquerón</option>
+                            </select>
+                            <div class="error" id="error_zone"></div>
+
+                            <label for="type_user"><strong>Categoría</strong></label>
+                            <select id="type_user" class="form-control">
+                                <option value="default" selected hidden>Seleccione una categoría</option>
+                                <option value="ADM">Administrador</option>
+                                <option value="COORD">Coordinador de Zona</option>
+                                <option value="ASE">Asesor Comercial</option>
+                            </select>
+                            <div class="error" id="error_type"></div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-success" onclick="validarAgregarUsuario()">Guardar usuario</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Modal editar usuario-->
+    <div>
+        <!-- Modal -->
+        <div class="modal fade" id="modalEditarUser" tabindex="-1" role="dialog"
+            aria-labelledby="EditarUsuario" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="tituloModalEditarUser">Editar usuario</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="form_editar_user">
+                            <label for="id_user_edit"><strong>Id usuario</strong></label>
+                            <input
+                                type="text"
+                                id="id_user_edit"
+                                name="id_user_edit"
+                                placeholder="Número ID"
+                                class="form-control"
+                                disabled
+                            />
+                            <div class="error" id="error_id_edit"></div>
+
+                            <label for="identification_user_edit"><strong># Identificación</strong></label>
+                            <input
+                                type="text"
+                                id="identification_user_edit"
+                                name="identification_user_edit"
+                                placeholder="Identificación"
+                                class="form-control"
+                            />
+                            <div class="error" id="error_identification_edit"></div>
+
+                            <label for="name_user_edit"><strong>Nombre</strong></label>
+                            <input
+                                type="text"
+                                id="name_user_edit"
+                                name="name_user_edit"
+                                placeholder="Nombre"
+                                class="form-control"
+                            />
+                            <div class="error" id="error_name_edit"></div>
+
+                            <label for="birthday_user_edit"><strong>Fecha nacimiento</strong></label>
+                            <input
+                                type="date"
+                                id="birthday_user_edit"
+                                name="birthday_user_edit"
+                                class="form-control"
+                            />
+                            <div class="error" id="error_birthday_edit"></div>
+
+                            <label for="address_user_edit"><strong>Dirección</strong></label>
+                            <input
+                                type="text"
+                                id="address_user_edit"
+                                name="address_user_edit"
+                                placeholder="Dirección"
+                                class="form-control"
+                            />
+                            <div class="error" id="error_address_edit"></div>
+
+                            <label for="cellphone_user_edit"><strong>Celular</strong></label>
+                            <input
+                                type="text"
+                                id="cellphone_user_edit"
+                                name="cellphone_user_edit"
+                                placeholder="Celular"
+                                class="form-control"
+                            />
+                            <div class="error" id="error_cellphone_edit"></div>
+
+                            <label for="email_user_edit"><strong>Email</strong></label>
+                            <input
+                                type="email"
+                                id="email_user_edit"
+                                name="email_user_edit"
+                                placeholder="Email"
+                                class="form-control"
+                            />
+                            <div class="error" id="error_email_edit"></div>
+
+                            <label for="password_user_edit"><strong>Contraseña</strong></label>
+                            <input
+                                type="password"
+                                id="password_user_edit"
+                                name="password_user_edit"
+                                placeholder="Contraseña"
+                                class="form-control"
+                            />
+                            <div class="error" id="error_password_edit"></div>
+
+                            <label for="zone_user_edit"><strong>Zona</strong></label>
+                            <select id="zone_user_edit" class="form-control">
+                                <option value="default" selected hidden>Seleccione una zona</option>
+                                <option value="ZONA 1">Zona 1 - Centro</option>
+                                <option value="ZONA 2">Zona 2 - Calambeo</option>
+                                <option value="ZONA 3">Zona 3 - San Simón</option>
+                                <option value="ZONA 4">Zona 4 - Piedrapintada</option>
+                                <option value="ZONA 5">Zona 5 - Jordán</option>
+                                <option value="ZONA 6">Zona 6 - Vergel</option>
+                                <option value="ZONA 7">Zona 7 - Salado</option>
+                                <option value="ZONA 8">Zona 8 - Simón Bolivar</option>
+                                <option value="ZONA 9">Zona 9 - Picaleña-Mirolindo</option>
+                                <option value="ZONA 10">Zona 10 - Estadio</option>
+                                <option value="ZONA 11">Zona 11 - Ferias</option>
+                                <option value="ZONA 12">Zona 12 - Ricaurte</option>
+                                <option value="ZONA 13">Zona 13 - Boquerón</option>
+                            </select>
+                            <div class="error" id="error_zone_edit"></div>
+
+                            <label for="type_user_edit"><strong>Categoría</strong></label>
+                            <select id="type_user_edit" class="form-control">
+                                <option value="default" selected hidden>Seleccione una categoría</option>
+                                <option value="ADM">Administrador</option>
+                                <option value="COORD">Coordinador de Zona</option>
+                                <option value="ASE">Asesor Comercial</option>
+                            </select>
+                            <div class="error" id="error_type_edit"></div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-success" onclick="actualizarUsuario()">Actualizar usuario</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Modal eliminar usuario-->
+    <div>
+        <!-- Modal -->
+        <div class="modal fade" id="modalEliminarUser" tabindex="-1" role="dialog"
+            aria-labelledby="EliminarUsuario" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="tituloModalEliminarUser">Eliminar usuario</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p id="advertencia_borrar"></p>
+                        <p id="id_borrado" style="display: none;"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-danger" onclick="eliminarUsuario()" data-dismiss="modal">Eliminar usuario</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Modal agregar suplemento-->
+    <div>
+        <!-- Modal -->
+        <div class="modal fade" id="modalAgregarSupplement" tabindex="-1" role="dialog"
+            aria-labelledby="AgregarSuplemento" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="tituloModalAgregarSupplement">Agregar producto</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="form_agregar_supplement">
+                            <label for="reference_supp"><strong>Referencia</strong></label>
+                            <input
+                                type="text"
+                                id="reference_supp"
+                                name="reference_supp"
+                                placeholder="Referencia"
+                                class="form-control"
+                            />
+                            <div class="error" id="error_reference"></div>
+
+                            <label for="brand_supp"><strong>Marca</strong></label>
+                            <input
+                                type="text"
+                                id="brand_supp"
+                                name="brand_supp"
+                                placeholder="Marca"
+                                class="form-control"
+                            />
+                            <div class="error" id="error_brand"></div>
+
+                            <label for="category_supp"><strong>Categoría</strong></label>
+                            <input
+                                type="text"
+                                id="category_supp"
+                                name="category_supp"
+                                placeholder="Categoría"
+                                class="form-control"
+                            />
+                            <div class="error" id="error_category"></div>
+
+                            <label for="objetivo_supp"><strong>Objetivo</strong></label>
+                            <input
+                                type="text"
+                                id="objetivo_supp"
+                                name="objetivo_supp"
+                                placeholder="Objetivo"
+                                class="form-control"
+                            />
+                            <div class="error" id="error_objetivo"></div>
+
+                            <label for="description_supp"><strong>Descripción</strong></label>
+                            <textarea
+                                id="description_supp"
+                                name="description_supp"
+                                placeholder="Descripción"
+                                rows=3
+                                class="form-control"
+                            ></textarea>
+                            <div class="error" id="error_description"></div>
+
+                            <label for="availability_supp"><strong>Disponibilidad</strong></label>
+                            <select id="availability_supp" class="form-control">
+                                <option value="default" selected hidden>Seleccione disponibilidad</option>
+                                <option value="true">SÍ</option>
+                                <option value="false">NO</option>
+                            </select>
+                            <div class="error" id="error_availability"></div>
+
+                            <label for="price_supp"><strong>Precio</strong></label>
+                            <input
+                                type="number"
+                                id="price_supp"
+                                name="price_supp"
+                                placeholder="Precio"
+                                class="form-control"
+                            />
+                            <div class="error" id="error_price"></div>
+
+                            <label for="quantity_supp"><strong>Cantidad</strong></label>
+                            <input
+                                type="number"
+                                id="quantity_supp"
+                                name="quantity_supp"
+                                placeholder="Cantidad"
+                                class="form-control"
+                            />
+                            <div class="error" id="error_quantity"></div>
+
+                            <label for="photography_supp"><strong>Fotografía</strong></label>
+                            <input
+                                type="text"
+                                id="photography_supp"
+                                name="photography_supp"
+                                placeholder="https://link.com"
+                                class="form-control"
+                            />
+                            <div class="error" id="error_photography"></div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-success" onclick="crearSuplemento()">Guardar producto</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Modal editar suplemento-->
+    <div>
+        <!-- Modal -->
+        <div class="modal fade" id="modalEditarSupplement" tabindex="-1" role="dialog"
+            aria-labelledby="EditarSuplemento" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="tituloModalEditarSupplement">Editar producto</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="form_editar_supplement">
+                            <label for="reference_supp_edit"><strong>Referencia</strong></label>
+                            <input
+                                type="text"
+                                id="reference_supp_edit"
+                                name="reference_supp_edit"
+                                placeholder="Referencia"
+                                class="form-control"
+                                disabled
+                            />
+                            <div class="error" id="error_reference_edit"></div>
+
+                            <label for="brand_supp_edit"><strong>Marca</strong></label>
+                            <input
+                                type="text"
+                                id="brand_supp_edit"
+                                name="brand_supp_edit"
+                                placeholder="Marca"
+                                class="form-control"
+                            />
+                            <div class="error" id="error_brand_edit"></div>
+
+                            <label for="category_supp_edit"><strong>Categoría</strong></label>
+                            <input
+                                type="text"
+                                id="category_supp_edit"
+                                name="category_supp_edit"
+                                placeholder="Categoría"
+                                class="form-control"
+                            />
+                            <div class="error" id="error_category_edit"></div>
+
+                            <label for="objetivo_supp_edit"><strong>Objetivo</strong></label>
+                            <input
+                                type="text"
+                                id="objetivo_supp_edit"
+                                name="objetivo_supp_edit"
+                                placeholder="Objetivo"
+                                class="form-control"
+                            />
+                            <div class="error" id="error_objetivo_edit"></div>
+
+                            <label for="description_supp_edit"><strong>Descripción</strong></label>
+                            <textarea
+                                id="description_supp_edit"
+                                name="description_supp_edit"
+                                placeholder="Descripción"
+                                class="form-control"
+                            ></textarea>
+                            <div class="error" id="error_description_edit"></div>
+
+                            <label for="availability_supp_edit"><strong>Disponibilidad</strong></label>
+                            <select id="availability_supp_edit" class="form-control">
+                                <option value="default" selected hidden>Seleccione disponibilidad</option>
+                                <option value="true">SÍ</option>
+                                <option value="false">NO</option>
+                            </select>
+                            <div class="error" id="error_availability_edit"></div>
+
+                            <label for="price_supp_edit"><strong>Precio</strong></label>
+                            <input
+                                type="number"
+                                id="price_supp_edit"
+                                name="price_supp_edit"
+                                placeholder="Precio"
+                                class="form-control"
+                            />
+                            <div class="error" id="error_price_edit"></div>
+
+                            <label for="quantity_supp_edit"><strong>Cantidad</strong></label>
+                            <input
+                                type="number"
+                                id="quantity_supp_edit"
+                                name="quantity_supp_edit"
+                                placeholder="Cantidad"
+                                class="form-control"
+                            />
+                            <div class="error" id="error_quantity_edit"></div>
+
+                            <label for="photography_supp_edit"><strong>Fotografía</strong></label>
+                            <input
+                                type="text"
+                                id="photography_supp_edit"
+                                name="photography_supp_edit"
+                                placeholder="https://link.com"
+                                class="form-control"
+                            />
+                            <div class="error" id="error_photography_edit"></div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-success" onclick="actualizarSuplemento()">Actualizar producto</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Modal eliminar suplemento-->
+    <div>
+        <!-- Modal -->
+        <div class="modal fade" id="modalEliminarSupplement" tabindex="-1" role="dialog"
+            aria-labelledby="EliminarSuplemento" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="tituloModalEliminarSupplement">Eliminar producto</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p id="advertencia_borrar_supp"></p>
+                        <p id="reference_borrado" style="display: none;"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-danger" onclick="eliminarSuplemento()" data-dismiss="modal">Eliminar producto</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Sweet alert-->
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        
+    <!-- Latest compiled JavaScript-->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    
+    <!-- Javascript local-->
+    <script src="js/inicio.js" type="text/javascript"></script>
+    
+</body>
+</html>

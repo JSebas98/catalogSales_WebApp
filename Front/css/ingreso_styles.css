@@ -1,0 +1,155 @@
+/**
+* ! Cambiando estilos predeterminados del navegador
+*/
+
+* {
+    margin: 10;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: sans-serif;
+    background-color: #FF5733;
+    padding: 60px;
+}
+
+p {
+    text-align: center;
+}
+
+a {
+    color: #FF5733;
+}
+
+img {
+    margin:auto;
+}
+
+/**
+* ! Reglas de estilo para la sección del formulario
+*/
+
+#form_ingreso {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 400px;
+    box-shadow: 4px 4px 8px rgba(194, 35, 0, 0.8);
+    padding: 50px;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    background-color: #fff;
+    margin:auto;
+    border-radius: 6px;
+}
+
+/**
+* ! Reglas de estilo para clase título
+*/
+.titulo {
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+#nombre_empresa {
+    text-align: center;
+    font-weight: bold;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    margin-bottom: -5px;
+}
+
+/**
+* ! Reglas de estilo para etiqueta label
+*/
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+/**
+* ! Reglas de estilo para los input dentro del formulario
+*/
+#form_ingreso div input {
+    width: 100%;
+    height: 40px;
+    border-radius: 10px;
+    outline: none;
+    border: 2px solid #c4c4c4;
+    padding: 0 30px;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/**
+* ! Reglas de estilo para los div dentro del formulario
+*/
+#form_ingreso div {
+    position: relative;
+    margin-bottom: 10px;
+}
+
+input:focus {
+    border: 2px solid #FF5733;
+}
+
+/**
+* ! Reglas de estilo para los íconos del formulario
+*/
+#form_ingreso div i{
+    position: absolute;
+    padding: 10px;
+}
+
+/**
+* ! Reglas de estilo para la clase error y los íconos de success y failure
+*/
+.failure-icon,
+.error {
+    color: red;
+}
+
+.success-icon {
+    color: green;
+}
+
+.error {
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+/**
+* ! Esconder íconos de éxito y fracaso
+*/
+.success-icon,
+.failure-icon {
+    right: 0;
+    opacity: 0;
+}
+
+/**
+* ! Reglas de estilo para la etiqueta button
+*/
+button {
+    margin-top: 15px;
+    margin-bottom: 20px;
+    width:100%;
+    height: 45px;
+    background-color: #FF5733;
+    border: 2px solid #FF5733;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 20px;
+    cursor:pointer;
+    box-shadow: 3px 3px 5px rgba(254, 62, 20, 0.4);
+    transition: all 0.3s ease;
+}
+
+/**
+* ! Agregar efecto hover en el botón
+*/
+button:hover {
+    background-color: #fff;
+    color: #ff5733;
+}
